@@ -210,7 +210,7 @@ def _get_dataset_processor(
     if stage == "pt":
         dataset_processor_class = PretrainDatasetProcessor
     elif stage == "sft" and not do_generate:
-        if data_args.packing:
+        if data_args.packing and not data_args.target_nlu:
             if data_args.neat_packing:  # hack datasets to have int32 attention mask
                 from datasets.arrow_writer import OptimizedTypedSequence, TypedSequence
 
@@ -229,7 +229,10 @@ def _get_dataset_processor(
             if data_args.dynamic:
                 dataset_processor_class = NoTemplateDatasetProcessor
             elif data_args.target_nlu:
-                dataset_processor_class = NluHeadDatasetProcessor
+                if data_args.packing:
+                    dataset_processor_class = PackedNluHeadDatasetProcessor
+                else:
+                    dataset_processor_class = NluHeadDatasetProcessor
             elif data_args.use_dense_retrieval_in_agent:
                 dataset_processor_class = DrAgentDatasetProcessor
             elif data_args.pnl_dense_retrieval:
