@@ -31,6 +31,7 @@ from .processor import (
     PretrainDatasetProcessor,
     SupervisedDatasetProcessor,
     NluHeadDatasetProcessor,
+    PackedNluHeadDatasetProcessor,
     DrAgentDatasetProcessor,
     NoTemplateDatasetProcessor,
     UnsupervisedDatasetProcessor,
